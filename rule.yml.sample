@@ -1,0 +1,59 @@
+endpoint:
+  - id: test
+    url: https://gist.githubusercontent.com/DeMarko/6142417/raw/1cd301a5917141524b712f92c2e955e86a1add19/sample.ics
+    delete:
+      - title: Youpiii
+        time:
+          start: 01:02
+          end: 01:03
+          zone: Europe/Amsterdam
+      - title:
+          condition: contains
+          value: Access-A-Ride
+
+      - title:
+          condition: contains
+          value: Access-A-Ride
+        time:
+          start: 01:02
+          end: 01:03
+          zone: UTC
+        days:
+          - Monday
+          - Tuesday
+        classification: public
+        priority: 5
+
+      - title:
+          condition: contains
+          value: Access-A-Ride
+        time:
+          allDay: true
+        days:
+          - Monday
+          - Tuesday
+        classification:
+          - public
+          - private
+        priority:
+          min: 5
+          max: 9
+        transparency: transp
+        status:
+          - TENTATIVE
+          - CONFIRMED
+          - CANCELLED
+          - NEEDS-ACTION
+          - COMPLETED
+          - IN-PROCESS
+          - CANCELLED
+          - DRAFT
+          - FINAL
+          - CANCELLED
+
+      - priority:
+          - 5
+          - 8
+          - 9
+        transparency: opaque
+        status: TENTATIVE
