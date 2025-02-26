@@ -2,14 +2,24 @@ endpoint:
   - id: test
     url: https://gist.githubusercontent.com/DeMarko/6142417/raw/1cd301a5917141524b712f92c2e955e86a1add19/sample.ics
     delete:
-      - title: Youpiii
+      - title: This string is the exact title targeted
         time:
           start: 01:02
           end: 01:03
           zone: Europe/Amsterdam
+      - title: This string is the exact title targeted
+      - title:
+          condition: exact
+          value: This string is the exact title targeted
+      - title:
+          condition: not_exact
+          value: This string is the title of the only kept event
       - title:
           condition: contains
-          value: Access-A-Ride
+          value: This is all or a part of the targeted event title
+      - title:
+          condition: not_contains
+          value: This is all or a part of the kept event title
 
       - title:
           condition: contains
