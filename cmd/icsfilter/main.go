@@ -1,6 +1,6 @@
 package main
 
-import "icsFilter/cmd/icsfilter/cmd"
+import "github.com/ajabep/icsFilter/cmd/icsfilter/cmd"
 
 func main() {
 	cmd.Execute()

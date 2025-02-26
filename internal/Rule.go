@@ -1,8 +1,8 @@
 package internal
 
 import (
+	"github.com/ajabep/icsFilter/internal/rules"
 	ics "github.com/arran4/golang-ical"
-	"icsFilter/internal/rules"
 )
 
 type RuleInterface interface {
