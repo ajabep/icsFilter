@@ -1,4 +1,4 @@
-module icsFilter
+module github.com/ajabep/icsFilter
 
 go 1.24
 

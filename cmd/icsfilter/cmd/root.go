@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"icsFilter/internal"
+	"github.com/ajabep/icsFilter/internal"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
