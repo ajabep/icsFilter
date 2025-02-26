@@ -26,11 +26,13 @@ gomod:
 
 # Reproducible build
 builds:
-  - env:
+  - id: build
+    env:
       - CGO_ENABLED=0
     mod_timestamp: "{{ .CommitTimestamp }}"
     flags:
       - -trimpath
+    main: ./cmd/icsFilter
     ldflags:
       - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{ .CommitDate }}
 
@@ -43,13 +45,13 @@ sboms:
 checksum:
   name_template: "CHECKSUMS"
 
-# Releaser
+# Releasers
 nfpms:
   - vendor: Ajabep
     homepage: https://github.com/ajabep/icsFilter
     maintainer: Ajabep <https://github.com/ajabep>
     description: |-
-        Quick and dirty iCal (.ics) filter.
+      Quick and dirty iCal (.ics) filter.
     license: UNLICENSE
     formats:
       - apk
@@ -62,9 +64,22 @@ nfpms:
 
     version_metadata: git
 
+dockers:
+  - ids:
+      - build
+    image_templates:
+      - "gcr.io/ajabep/icsfilter:latest"
+      - "gcr.io/ajabep/icsfilter:{{ .Version }}"
+    build_flag_templates:
+      - "--pull"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+
 # Signing!
 signs:
-  - id: checksum
+  - id: checksumSig
     cmd: cosign
     certificate: "${artifact}.pem"
     args:
@@ -74,3 +89,16 @@ signs:
       - "${artifact}"
       - "--yes" # needed on cosign 2.0.0+
     artifacts: checksum
+
+docker_signs:
+  - id: dockerSign
+    cmd: cosign
+    args:
+      - "sign"
+      - "--key=cosign.key"
+      - "--upload=false"
+      - "${artifact}"
+      - "--yes" # needed on cosign 2.0.0+
+    artifacts: all
+    ids:
+      - dockers
