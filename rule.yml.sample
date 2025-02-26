@@ -37,8 +37,6 @@ endpoint:
       - title:
           condition: contains
           value: Access-A-Ride
-        time:
-          allDay: true
         days:
           - Monday
           - Tuesday
