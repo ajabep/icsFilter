@@ -19,7 +19,19 @@ This server is not made for being blazing fast. Just to work and not being a pai
 
 For the configuration, please, refer to the "How to configure" section.
 
-TODO
+The docker image is published on GitHub: `gcr.io/ajabep/icsfilter`
+
+To run the latest version, run:
+
+```shell
+docker run gcr.io/ajabep/icsfilter /app/configurationFile.yml  
+```
+
+The port to expose is TCP/8080.
+
+The first argument is the configuration file path *in the container*. Thus, think about mounting it in the container 
+(`--volume`). In the previous example, the configuration directory has to be mounted as the `/app` directory in the 
+container.
 
 ### By a running command line
 
