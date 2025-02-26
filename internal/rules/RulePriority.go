@@ -39,9 +39,9 @@ func (rp *RulePriority) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	}
 
 	var tmp2 []uint8
-	if err := unmarshal(&tmp); err != nil {
+	if err := unmarshal(&tmp2); err != nil {
 		var tmp3 *uint8
-		if err := unmarshal(&tmp2); err == nil {
+		if err := unmarshal(&tmp3); err == nil {
 			tmp2 = append(tmp2, *tmp3)
 			return nil
 		} else {
