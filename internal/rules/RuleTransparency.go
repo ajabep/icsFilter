@@ -12,7 +12,7 @@ type Transparency uint8
 const (
 	Transp Transparency = iota
 	Opaque
-	Transparent Transparency = Transp
+	Transparent = Transp
 )
 
 var MapEnumStringToTransparency = func() map[string]Transparency {
