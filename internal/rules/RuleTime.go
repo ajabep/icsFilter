@@ -134,15 +134,7 @@ func (rt *RuleTime) Complies(event *ics.VEvent) bool {
 	}
 
 	if rt.AllTheDay {
-		// TODO have a better implementation
-		rt.StartTime = TimeCond{
-			Hours:   0,
-			Minutes: 0,
-		}
-		rt.EndTime = TimeCond{
-			Hours:   23,
-			Minutes: 59,
-		}
+		log.Fatal().Interface("RuleTime", rt).Str("eventID", event.Id()).Msg("TODO")
 	}
 	return startTime.Hour() >= rt.StartTime.Hours && startTime.Minute() >= rt.StartTime.Minutes &&
 		endTime.Hour() <= rt.StartTime.Hours && endTime.Minute() <= rt.StartTime.Minutes
@@ -150,7 +142,7 @@ func (rt *RuleTime) Complies(event *ics.VEvent) bool {
 
 func (rt *RuleTime) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	var tmp struct {
-		AllTheDay *bool  `yaml:"allDay"`
+		//AllTheDay *bool  `yaml:"allDay"`
 		StartTime string `yaml:"start"`
 		EndTime   string `yaml:"end"`
 		Zone      string `yaml:"zone"`
@@ -160,9 +152,9 @@ func (rt *RuleTime) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	}
 
 	var err error
-	if tmp.AllTheDay != nil {
-		rt.AllTheDay = *tmp.AllTheDay
-	}
+	//if tmp.AllTheDay != nil {
+	//	rt.AllTheDay = *tmp.AllTheDay
+	//}
 	if tmp.StartTime != "" {
 		rt.StartTime, err = parseTime(tmp.StartTime)
 		if err != nil {
