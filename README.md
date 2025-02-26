@@ -65,7 +65,8 @@ For each iCal (.ics) source, you need:
 
 Indeed, the rules are not shared across the sources, allowing you to have multiple sources with different rules.
 
-The Source ID is used in the URL as `http://yourserver:8080/ID`.
+The Source ID is used in the URL as `http://yourserver:8080/ID`. Thus, if you want to filter a confidential source, 
+this ID **HAS** to be truly random.
 
 When one of the rules listed is met, the event is deleted.
 
