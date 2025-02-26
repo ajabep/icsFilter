@@ -113,8 +113,8 @@ type RuleTime struct {
 	Location  *time.Location
 }
 
-// TODO add the dates
 func (rt *RuleTime) Complies(event *ics.VEvent) bool {
+	// TODO add the dates
 	start := event.GetProperty(ics.ComponentPropertyDtStart)
 	if start == nil {
 		return false
