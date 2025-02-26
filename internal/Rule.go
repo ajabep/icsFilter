@@ -5,10 +5,6 @@ import (
 	ics "github.com/arran4/golang-ical"
 )
 
-type RuleInterface interface {
-	Complies(event *ics.VEvent) bool
-}
-
 type Rule struct {
 	Conditions []RuleInterface
 }
@@ -32,31 +28,6 @@ func (r *Rule) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	if tmp.Days != nil {
 		r.Conditions = append(r.Conditions, tmp.Days)
 	}
-
-	/*
-		if tmp.StartTime == "" {
-			r.StartTime = nil
-		} else {
-			t, err := parseTime(tmp.StartTime)
-			if err != nil {
-				return err
-			}
-			r.StartTime = &t
-		}
-		if tmp.EndTime == "" {
-			r.EndTime = nil
-		} else {
-			t, err := parseTime(tmp.EndTime)
-			if err != nil {
-				return err
-			}
-			r.EndTime = &t
-		}
-		r.Days = make([]Day, len(tmp.Days))
-		for i, d := range tmp.Days {
-			r.Days[i] = MapEnumStringToDay[d]
-		}
-	*/
 	return nil
 }
 
