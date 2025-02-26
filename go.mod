@@ -1,6 +1,6 @@
 module github.com/ajabep/icsFilter
 
-go 1.24
+go 1.23.6
 
 require (
 	github.com/arran4/golang-ical v0.3.2
