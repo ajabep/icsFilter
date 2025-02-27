@@ -66,8 +66,8 @@ dockers:
   - ids:
       - build
     image_templates:
-      - "gcr.io/ajabep/icsfilter:latest"
-      - "gcr.io/ajabep/icsfilter:{{ .Version }}"
+      - "ghcr.io/ajabep/icsfilter:latest"
+      - "ghcr.io/ajabep/icsfilter:{{ .Version }}"
     build_flag_templates:
       - "--pull"
       - "--label=org.opencontainers.image.created={{.Date}}"

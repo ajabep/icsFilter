@@ -19,12 +19,12 @@ This server is not made for being blazing fast. Just to work and not being a pai
 
 For the configuration, please, refer to the "How to configure" section.
 
-The docker image is published on GitHub: `gcr.io/ajabep/icsfilter`
+The docker image is published on GitHub: `ghcr.io/ajabep/icsfilter`
 
 To run the latest version, run:
 
 ```shell
-docker run gcr.io/ajabep/icsfilter /app/configurationFile.yml  
+docker run ghcr.io/ajabep/icsfilter /app/configurationFile.yml  
 ```
 
 The port to expose is TCP/8080.
