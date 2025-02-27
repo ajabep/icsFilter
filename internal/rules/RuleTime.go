@@ -106,6 +106,17 @@ func parseCalDateTime(str string, loc *time.Location) (time.Time, error) {
 	return t, err
 }
 
+func LoadLocation(id string) (*time.Location, error) {
+	tz, err := time.LoadLocation(id)
+	if err == nil {
+		return tz, nil
+	}
+	if ianaId, ok := WinTZtoIANA[id]; ok {
+		return time.LoadLocation(ianaId)
+	}
+	return nil, err
+}
+
 type RuleTime struct {
 	AllTheDay bool
 	StartTime TimeCond
@@ -115,23 +126,46 @@ type RuleTime struct {
 
 func (rt *RuleTime) Complies(event *ics.VEvent) bool {
 	// TODO add the dates
+	var err error
 	start := event.GetProperty(ics.ComponentPropertyDtStart)
 	if start == nil {
 		return false
 	}
-	startTime, err := parseCalDateTime(start.Value, rt.Location)
+	startTz := rt.Location
+	if startTzStrArray, ok := start.ICalParameters["TZID"]; ok {
+		if len(startTzStrArray) > 0 {
+			startTz, err = LoadLocation(startTzStrArray[0])
+			if err != nil {
+				log.Fatal().Str("eventID", event.Id()).Str("TZID",
+					startTzStrArray[0]).Err(err).Msg("Error loading the event timezone")
+			}
+		}
+	}
+	startTime, err := parseCalDateTime(start.Value, startTz)
 	if err != nil {
 		log.Fatal().Str("eventID", event.Id()).Err(err).Msg("Error parsing start time")
 	}
+	startTime = startTime.In(rt.Location)
 
 	end := event.GetProperty(ics.ComponentPropertyDtEnd)
 	if end == nil {
 		return false
 	}
-	endTime, err := parseCalDateTime(end.Value, rt.Location)
+	endTz := rt.Location
+	if endTzStrArray, ok := end.ICalParameters["TZID"]; ok {
+		if len(endTzStrArray) > 0 {
+			endTz, err = LoadLocation(endTzStrArray[0])
+			if err != nil {
+				log.Fatal().Str("eventID", event.Id()).Str("TZID",
+					endTzStrArray[0]).Err(err).Msg("Error loading the event timezone")
+			}
+		}
+	}
+	endTime, err := parseCalDateTime(end.Value, endTz)
 	if err != nil {
 		log.Fatal().Str("eventID", event.Id()).Err(err).Msg("Error parsing start time")
 	}
+	endTime = endTime.In(rt.Location)
 
 	if rt.AllTheDay {
 		// TODO have a better implementation
@@ -145,7 +179,7 @@ func (rt *RuleTime) Complies(event *ics.VEvent) bool {
 		}
 	}
 	return startTime.Hour() >= rt.StartTime.Hours && startTime.Minute() >= rt.StartTime.Minutes &&
-		endTime.Hour() <= rt.StartTime.Hours && endTime.Minute() <= rt.StartTime.Minutes
+		endTime.Hour() <= rt.EndTime.Hours && endTime.Minute() <= rt.EndTime.Minutes
 }
 
 func (rt *RuleTime) UnmarshalYAML(unmarshal func(interface{}) error) error {
@@ -176,7 +210,7 @@ func (rt *RuleTime) UnmarshalYAML(unmarshal func(interface{}) error) error {
 		}
 	}
 	if tmp.Zone != "" {
-		zone, err := time.LoadLocation(tmp.Zone)
+		zone, err := LoadLocation(tmp.Zone)
 		if err != nil {
 			return err
 		}
