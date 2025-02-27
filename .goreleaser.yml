@@ -2,12 +2,6 @@ version: 2
 
 # Verifiable build
 gomod:
-  # Proxy a module from proxy.golang.org, making the builds verifiable.
-  # This will only be effective if running against a tag. Snapshots will ignore
-  # this setting.
-  # Notice: for this to work your `build.main` must be a package, not a `.go` file.
-  proxy: true
-
   # If proxy is true, use these environment variables when running `go mod`
   # commands (namely, `go mod tidy`).
   #
@@ -24,6 +18,10 @@ gomod:
   # Default: ''.
   dir: .
 
+before:
+  hooks:
+    - go mod download
+
 # Reproducible build
 builds:
   - id: build
@@ -32,7 +30,7 @@ builds:
     mod_timestamp: "{{ .CommitTimestamp }}"
     flags:
       - -trimpath
-    main: ./cmd/icsFilter
+    main: ./cmd/icsfilter
     ldflags:
       - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{ .CommitDate }}
 
