@@ -4,7 +4,7 @@ go 1.23.6
 
 require (
 	github.com/arran4/golang-ical v0.3.2
-	github.com/rs/zerolog v1.33.0
+	github.com/rs/zerolog v1.34.0
 	github.com/spf13/cobra v1.9.1
 	gopkg.in/yaml.v3 v3.0.1
 )
