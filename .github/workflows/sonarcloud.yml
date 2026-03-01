@@ -62,7 +62,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
         with:
-          go-version: '1.22'
+          go-version: '1.26'
 
       - name: Testing...
         run: go test -coverprofile cover.out -v ./... -json >tests.json
